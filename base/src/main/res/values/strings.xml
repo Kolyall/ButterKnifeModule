@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Base UI</string>
+
+    <string name="error_internet">Network error: check your connection.</string>
+    <string name="error_server">An error occured on our end. Sorry</string>
+    <string name="loading">Loading…</string>
+    <string name="try_again">Try again</string>
+    <string name="cancel">Cancel</string>
+    <string name="go_back">Go back</string>
+</resources>

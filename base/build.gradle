@@ -1,0 +1,62 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'
+    }
+}
+
+apply plugin: 'com.android.library'
+//apply plugin: 'android-apt'
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
+
+    defaultConfig {
+        minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
+        targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+
+        versionCode globalConfiguration.getAt("androidVersionCode")
+        versionName globalConfiguration.getAt("androidVersionName")
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    def presentationDependencies = rootProject.ext.presentationDependencies
+    def commonDependencies = rootProject.ext.commonDependencies
+    def dataDependencies = rootProject.ext.dataDependencies
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile presentationDependencies.rxJava
+    compile presentationDependencies.rxAndroid
+    compile presentationDependencies.rxExtras
+
+    provided commonDependencies.lombok
+    annotationProcessor commonDependencies.lombok
+
+    compile dataDependencies.javaxAnnotation
+    compile dataDependencies.androidAnnotations
+
+    compile presentationDependencies.butterKnife
+    annotationProcessor presentationDependencies.butterKnifeCompiler
+
+    compile presentationDependencies.fragmentargs
+    annotationProcessor presentationDependencies.fragmentargsCompiler
+
+    compile presentationDependencies.activitystarter
+    annotationProcessor presentationDependencies.activitystarterCompiler
+
+    compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVer}"
+    compile "com.android.support:design:${rootProject.ext.supportLibVer}"
+}
+
